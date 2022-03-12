@@ -9,7 +9,7 @@ export default function HomeScreen({ navigation })
     const content = "Laptop owner";
     return (
         <TouchableOpacity onPress={() =>
-            navigation?.push('Detail', { title, content })}
+            navigation.navigate('Detail', { title, content })}
         >
             <Card>
                 <Card.Content>
