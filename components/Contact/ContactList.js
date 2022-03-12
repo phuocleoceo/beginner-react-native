@@ -44,7 +44,6 @@ export default function ContactList()
         )
     }
 
-
     return (
         <View style={styles.container}>
             <RecyclerListView
