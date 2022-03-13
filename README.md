@@ -7,4 +7,5 @@ react-native-paper
 react-hook-form
 
 ## expo install
+expo-file-system expo-asset
 expo-sqlite

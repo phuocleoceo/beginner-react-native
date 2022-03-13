@@ -1,26 +1,15 @@
 import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview';
 import { StyleSheet, View, Dimensions, Text, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import useSQLite from '../../hooks/useSQLite';
 import { FAB } from 'react-native-paper';
-import React, { useState } from 'react';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export default function ContactList({ navigation })
 {
-    const [listContact, setListContact] = useState([
-        {
-            id: 1,
-            name: "Truong Minh Phuoc",
-            mobile: "0382609982",
-            email: "ht10082001@gmail.com"
-        },
-        {
-            id: 2,
-            name: "Truong Thach Kim Ngan",
-            mobile: "0945787549",
-            email: "muoptay212@gmail.com"
-        }
-    ]);
+    const { listContact } = useSQLite();
+    console.log(listContact);
 
     const _dataProvider = new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(listContact);
 
@@ -45,7 +34,7 @@ export default function ContactList({ navigation })
 
     return (
         <View style={styles.container}>
-            <RecyclerListView
+            {/* <RecyclerListView
                 style={{ flex: 1 }}
                 rowRenderer={_rowRenderer}
                 dataProvider={_dataProvider}
@@ -55,7 +44,7 @@ export default function ContactList({ navigation })
                 style={styles.fab}
                 icon="plus"
                 onPress={handleNewContact}
-            />
+            /> */}
         </View>
     )
 }

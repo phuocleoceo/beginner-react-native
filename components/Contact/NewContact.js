@@ -11,10 +11,7 @@ export default function NewContact({ navigation })
     const Input = ({ name, control, placeHolder }) =>
     {
         const { field } = useController({
-            control,
-            defaultValue: "",
-            name,
-            rules: { require: true }
+            control, defaultValue: "", name, rules: { require: true }
         });
         return (
             <TextInput
@@ -106,13 +103,6 @@ const styles = StyleSheet.create({
 
         borderWidth: 1,
         borderColor: "#7a7777",
-        borderRadius: 10,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 1,
-            height: 1,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
+        borderRadius: 10
     }
 });
