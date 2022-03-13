@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import * as SQLite from "expo-sqlite";
 import { Asset } from "expo-asset";
 
-const getDatabase = async (pathToDatabaseFile) =>
+const getDatabase = async () =>
 {
     const SQLite3Path = FileSystem.documentDirectory + 'SQLite';
     if (!(await FileSystem.getInfoAsync(SQLite3Path)).exists)
@@ -11,7 +11,7 @@ const getDatabase = async (pathToDatabaseFile) =>
         await FileSystem.makeDirectoryAsync(SQLite3Path);
     }
     await FileSystem.downloadAsync(
-        Asset.fromModule(require(pathToDatabaseFile)).uri,
+        Asset.fromModule(require("../contacts.db")).uri,
         SQLite3Path + '/contacts.db'
     );
     return SQLite.openDatabase('contacts.db');
@@ -19,7 +19,7 @@ const getDatabase = async (pathToDatabaseFile) =>
 
 export default function useSQLite()
 {
-    const db = getDatabase("../contacts.db");
+    const db = getDatabase();
     const [listContact, setListContact] = useState([]);
     const [forceReload, setForceReload] = useState(true);
 
