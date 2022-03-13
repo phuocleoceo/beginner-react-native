@@ -1,10 +1,36 @@
-import { StyleSheet, View, Image, TextInput, ScrollView } from 'react-native';
-import { List, Button } from 'react-native-paper';
+import { StyleSheet, View, Image, TextInput, ScrollView, Alert } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useForm, useController } from "react-hook-form";
+import { Button } from 'react-native-paper';
 import React from 'react';
 
 export default function NewContact({ navigation })
 {
-    const handleGoBack = () => navigation.goBack();
+    const { control, handleSubmit, formState: { errors } } = useForm();
+
+    const Input = ({ name, control, placeHolder }) =>
+    {
+        const { field } = useController({
+            control,
+            defaultValue: "",
+            name,
+            rules: { require: true }
+        });
+        return (
+            <TextInput
+                style={styles.formInput}
+                placeholder={placeHolder}
+                onChangeText={field.onChange}
+                value={field.value}
+            />
+        );
+    };
+
+    const onSubmit = (data) =>
+    {
+        console.log(data);
+        navigation.goBack();
+    };
 
     return (
         <ScrollView style={styles.container}>
@@ -13,31 +39,23 @@ export default function NewContact({ navigation })
             </View>
 
             <View style={styles.formControl}>
-                <Button icon="account-circle" style={styles.formIcon}></Button>
-                <TextInput
-                    style={styles.formInput}
-                    placeholder="Enter Name..."
-                />
+                <Icon name="id-card" size={35} color="#6200ee" style={styles.formIcon} />
+                <Input name="name" control={control} placeHolder="Enter name..." />
+            </View>
+            {errors.name && Alert.alert("Name is required")}
+
+            <View style={styles.formControl}>
+                <Icon name="phone" size={35} color="#6200ee" style={styles.formIcon} />
+                <Input name="mobile" control={control} placeHolder="Enter mobile phone..." />
             </View>
 
             <View style={styles.formControl}>
-                <Button icon="cellphone" style={styles.formIcon}></Button>
-                <TextInput
-                    style={styles.formInput}
-                    placeholder="Enter Mobile Phone..."
-                />
+                <Icon name="voicemail" size={35} color="#6200ee" style={styles.formIcon} />
+                <Input name="email" control={control} placeHolder="Enter email" />
             </View>
 
-            <View style={styles.formControl}>
-                <Button icon="email" style={styles.formIcon}></Button>
-                <TextInput
-                    style={styles.formInput}
-                    placeholder="Enter Email..."
-                />
-            </View>
-
-            <Button style={styles.btn} icon="plus"
-                mode="contained" onPress={handleGoBack}>
+            <Button style={styles.btn} mode="contained"
+                icon="plus" onPress={handleSubmit(onSubmit)}>
                 Add Contact
             </Button>
         </ScrollView >
@@ -76,11 +94,13 @@ const styles = StyleSheet.create({
     },
     formIcon: {
         flex: 1,
+        padding: 5,
         width: 50,
-        height: 50
+        height: 50,
+        left: 10
     },
     formInput: {
-        flex: 50,
+        flex: 5,
         fontSize: 20,
         padding: 10,
 
