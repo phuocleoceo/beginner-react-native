@@ -21,9 +21,7 @@ export const fetchDogList = createAsyncThunk("dog/fetchDogList",
 
 const init = {
     doneLoading: false,
-    data: [
-        { id: 0, name: "", bred_for: "", url: "" }
-    ]
+    data: []
 }
 
 export const dogSlice = createSlice({

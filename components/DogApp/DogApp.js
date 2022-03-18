@@ -17,13 +17,13 @@ export default function ContactList()
         dispatch(fetchDogList());
     }, [dispatch]);
 
-    const [currenWidth, setcurrenWidth] = useState(SCREEN_WIDTH);
+    const [currentWidth, setcurrentWidth] = useState(SCREEN_WIDTH);
     useEffect(() =>
     {
         Dimensions.addEventListener('change', ({ window: { width, height } }) =>
         {
-            if (width < height) setcurrenWidth(SCREEN_WIDTH);
-            else setcurrenWidth(SCREEN_HEIGHT);
+            if (width < height) setcurrentWidth(SCREEN_WIDTH);
+            else setcurrentWidth(SCREEN_HEIGHT);
         })
     }, []);
 
@@ -31,13 +31,13 @@ export default function ContactList()
 
     const _layoutProvider = new LayoutProvider(
         (index) => _dataProvider.getDataForIndex(index),
-        (type, dim) => { dim.width = currenWidth / 2; dim.height = 300; })
+        (type, dim) => { dim.width = currentWidth / 2; dim.height = 300; })
 
     const _rowRenderer = (type, data) => 
     {
         const { id, name, bred_for, url } = data;
         return (
-            <Card style={styles.listD} key={id}>
+            <Card style={styles.dogItem} key={id}>
                 <Card.Cover source={{ uri: url }} />
                 <Card.Title
                     title={name}
@@ -51,7 +51,8 @@ export default function ContactList()
     return (
         <View style={styles.container}>
             {
-                doneLoading ?
+                doneLoading
+                    ?
                     <RecyclerListView
                         style={{ flex: 1 }}
                         rowRenderer={_rowRenderer}
@@ -61,7 +62,6 @@ export default function ContactList()
                     /> :
                     <Text>Loading...</Text>
             }
-
         </View>
     )
 }
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         minWidth: 1,
     },
 
-    listD: {
+    dogItem: {
         margin: 5,
         padding: 5,
         borderWidth: 1,
