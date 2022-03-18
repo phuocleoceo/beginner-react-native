@@ -10,6 +10,7 @@ export default function ContactList({ navigation })
 {
     const { listContact } = useSQLite();
     console.log(listContact);
+    // const [listContact, setListContact] = useState([{ id: 1, name: "phuoc", mobile: "032", email: "@" }]);
 
     const _dataProvider = new DataProvider((r1, r2) => r1 !== r2).cloneWithRows(listContact);
 

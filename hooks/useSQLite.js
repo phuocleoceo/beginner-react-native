@@ -5,16 +5,15 @@ import { Asset } from "expo-asset";
 
 const getDatabase = async () =>
 {
-    const SQLite3Path = FileSystem.documentDirectory + 'SQLite';
+    const DBName = "contacts.db";
+    const SQLite3Path = FileSystem.documentDirectory + 'SQLite/';
     if (!(await FileSystem.getInfoAsync(SQLite3Path)).exists)
     {
         await FileSystem.makeDirectoryAsync(SQLite3Path);
     }
-    await FileSystem.downloadAsync(
-        Asset.fromModule(require("../contacts.db")).uri,
-        SQLite3Path + '/contacts.db'
-    );
-    return SQLite.openDatabase('contacts.db');
+    const asset = Asset.fromModule(require("../assets/database/contacs.db"));
+    await FileSystem.downloadAsync(asset.uri, SQLite3Path + DBName);
+    return SQLite.openDatabase(DBName);
 }
 
 export default function useSQLite()
