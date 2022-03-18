@@ -4,12 +4,22 @@ import { Card, IconButton, } from 'react-native-paper';
 import React, { useState, useEffect } from 'react';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 export default function ContactList()
 {
     const [listDog, setListDog] = useState([
         { id: 0, name: "", bred_for: "", url: "" }
     ]);
+    const [currenWidth, setcurrenWidth] = useState(SCREEN_WIDTH);
+    useEffect(() =>
+    {
+        Dimensions.addEventListener('change', ({ window: { width, height } }) =>
+        {
+            if (width < height) setcurrenWidth(SCREEN_WIDTH);
+            else setcurrenWidth(SCREEN_HEIGHT);
+        })
+    }, []);
 
     useEffect(() =>
     {
@@ -31,22 +41,20 @@ export default function ContactList()
 
     const _layoutProvider = new LayoutProvider(
         (index) => _dataProvider.getDataForIndex(index),
-        (type, dim) => { dim.width = SCREEN_WIDTH / 2; dim.height = 300; })
+        (type, dim) => { dim.width = currenWidth / 2; dim.height = 300; })
 
-    const _rowRenderer = (type, data) =>
+    const _rowRenderer = (type, data) => 
     {
         const { id, name, bred_for, url } = data;
         return (
-            <View style={styles.listD} key={id} >
-                <Card>
-                    <Card.Cover source={{ uri: url }} />
-                    <Card.Title
-                        title={name}
-                        subtitle={bred_for}
-                        right={() => <IconButton icon="heart" />}
-                    />
-                </Card>
-            </View>
+            <Card style={styles.listD} key={id}>
+                <Card.Cover source={{ uri: url }} />
+                <Card.Title
+                    title={name}
+                    subtitle={bred_for}
+                    right={() => <IconButton icon="heart" />}
+                />
+            </Card>
         )
     }
 
@@ -57,6 +65,7 @@ export default function ContactList()
                 rowRenderer={_rowRenderer}
                 dataProvider={_dataProvider}
                 layoutProvider={_layoutProvider}
+                canChangeSize={true}
             />
         </View>
     )
